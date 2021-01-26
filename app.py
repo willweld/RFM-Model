@@ -17,7 +17,12 @@ def load_data():
     return data
 
 data = load_data()
-segments = data['Customer Segment'].unique()
+# Customer Status Test
+customer_status = ['New', 'Retain', 'React', 'Lost', 'N/A']
+data['Customer Status'] = np.random.choice(list(customer_status), len(data))
+
+segments = data['Customer Status'].unique()
+#segments = data['Customer Segment'].unique()
 
 #build app filters
 column = st.sidebar.multiselect('Select Segments', segments)
@@ -31,7 +36,8 @@ data = data[(data['Recency']<=recency) & (data['Frequency']<=frequency) & (data[
 if column == []:
     data = data
 else:
-    data = data[data['Customer Segment'].isin(column)]
+    #data = data[data['Customer Segment'].isin(column)]
+    data = data[data['Customer Status'].isin(column)]
 
 data
 
